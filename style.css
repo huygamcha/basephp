@@ -1,0 +1,6 @@
+.btn:hover {
+    cursor: pointer;
+    background: #3a1336;
+    padding: 10px;
+    color: #fff;
+}
