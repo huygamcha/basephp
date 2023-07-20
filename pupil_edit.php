@@ -1,3 +1,8 @@
+<style>
+    .error {
+        color: red;
+    }
+</style>
 <?php
 session_start();
 if (!isset($_SESSION['username'])) { //chưa khởi tạo session
@@ -7,23 +12,36 @@ if (!isset($_SESSION['username'])) { //chưa khởi tạo session
 include 'define_bd.php';
 $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DB_NAME) or die();
 mysqli_query($conn, "set names 'utf8'");
-$result = mysqli_query($conn, "SELECT * FROM `pupil` WHERE id = " . $_GET['id']);
-
-
-while ($row = mysqli_fetch_array($result)) {
-    $fullname = $row['full_name'];
-    $married = $row['married'];
-    $sex = $row['sex'];
-    $birthday = $row['birthday'];
-    // $birthday = date('d/m/Y', strtotime($datetime));
+$resultClass = mysqli_query($conn, "SELECT * from class");
+$resultPupil = mysqli_query($conn, "SELECT * from pupil where id =" . $_GET["id"]);
+while ($row = mysqli_fetch_array($resultPupil)) {
+    $fullName = $row["full_name"];
+    $classId = $row["class_id"];
+    $sex = $row["sex"];
+    $married = $row["married"];
+    $birthday = $row["birthday"];
 }
+$birthday = explode(" ", $birthday)[0];
 
 ?>
-<form action="pupil_edit_bd.php" method="post">
+<form action="pupil_edit_bd.php?id=<?php echo $_GET['id']; ?>" method="post">
     <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
     <div>
-        <input type="text" name="full_name" placeholder="full-name" value="<?php echo $fullname; ?>">
+        <input type="text" name="full_name" placeholder="full-name" value='<?php
+        if (isset($_GET['full_name'])) {
+            echo $_GET['full_name'];
+        } else if (!isset($_GET['error_full_name'])) {
+            echo $fullName;
+        }
+        ?>'>
+        <?php
+        if (isset($_GET['error_full_name'])) {
+            echo '<div class="error">Vui lòng nhập họ tên</div>';
+        }
+        ?>
     </div>
+
+
     <div>
         <label for="gender">Marred:</label><br>
         <input type="radio" id="male" name="married" value="1" <?php if ($married == '1')

@@ -142,26 +142,19 @@ if ($totalPages > 1) {
 echo "</div>";
 
 ?>
+<script src="functions.js"></script>
 
 <script>
     $(document).on("click", "button", function () {
-        if (confirm("Are you sure you want to delete")) {
-            var pupilId = $(this).attr('id');
-            var that = $(this);
-            $.ajax({
-                url: 'delete.php?id=' + pupilId,
-                success: function (data) {
-                    $(that).parents('tr').remove();
-                }
-            })
-        }
-
+        var pupilId = $(this).attr('id');
+        deleteItem.bind(this)(pupilId, 'pupil');
     });
+
 
     $(document).on("click", "a", function () {
         var page = $(this).data('page');
         $.ajax({
-            url: 'pupil_edit.php?page=' + page,
+            url: 'data_pupil.php?page=' + page,
             success: function (data) {
                 $("tbody").html(data);
             },

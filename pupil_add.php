@@ -44,12 +44,12 @@ if (!isset($_SESSION['username'])) { //chưa khởi tạo session
 <form action="pupil_add_db.php" method="post">
     <div>
         <input type="text" name="full_name" placeholder="full-name" value='<?php
-        if ($_GET['full_name']) {
+        if (isset($_GET['full_name'])) {
             echo $_GET['full_name'];
         }
         ?>'>
         <?php
-        if ($_GET['error_full_name']) {
+        if (isset($_GET['error_full_name'])) {
             echo '<div class="error">Vui lòng nhập tên</div>';
         }
         ?>

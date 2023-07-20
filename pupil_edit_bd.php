@@ -1,6 +1,15 @@
 <?php
 
 include 'define_bd.php';
+session_start();
+if (!isset($_SESSION['username'])) { //chưa khởi tạo session
+    header("Location:login.php");
+}
+
+if (count($_POST) == 0) { //user gõ url chứ không phải submit từ form
+    header("Location:home.php");
+}
+
 $error = '';
 $value = false;
 
@@ -45,7 +54,7 @@ if ($_POST['birthday'] == '') {
 // nếu có lỗi thì dẫn đến url mới
 if ($value == true) {
     $error = ltrim($error, '$');
-    header('Location: pupil_edit.php?' . $error);
+    header('Location: pupil_edit.php?' . $error . '&id=' . $_GET['id']);
     exit();
 }
 
